@@ -1,7 +1,7 @@
-package ChildActors
+package main.scala.ChildActors
 
-import akka.actor.typed.scaladsl.Behaviors
-import akka.actor.typed.{ ActorRef, ActorSystem, Behavior }
+import akka.actor.typed.scaladsl.{Behaviors, Routers}
+import akka.actor.typed.{ActorRef, ActorSystem, Behavior, SupervisorStrategy}
 
 
 object Guardian{
@@ -26,18 +26,24 @@ object Manager{
 
   def apply(): Behavior[Command]= Behaviors.setup{
     context =>
-      val aggregator:ActorRef[Aggregator.Command]=
+      val aggregator:ActorRef[Aggregator.Command]= {
         context.spawn(Aggregator(),"Aggregator")
+      }
+      // add the pool router
+      val pool = Routers.pool(poolSize = 4) {
+        // make sure the workers are restarted if they fail
+        Behaviors.supervise(Worker(context.self,aggregator)).onFailure[Exception](SupervisorStrategy.restart)
+      }
+
+      val router = context.spawn(pool, "worker-pool")
 
       Behaviors.receiveMessage{
         message=>message match{
           case Delegate(tasks)=>
             println("分配工作")
             tasks.map{task=>
-              val worker:ActorRef[Worker.Command]=
-                context.spawn(Worker(context.self,aggregator),s"worker-$task")
               println(s"创建了工人")
-              worker ! Worker.Do(task)
+              router ! Worker.Do(task)
               aggregator ! Aggregator.nInstanceTask(tasks.length)
 
             }
@@ -119,7 +125,7 @@ object Aggregator{
 object ChildAggregator extends App{
   val system: ActorSystem[Guardian.Command] =
     ActorSystem(Guardian(), "ChildAndAggregatorShow")
-  system ! Guardian.Start(List("jack", "tom"))
+  system ! Guardian.Start(List("jack", "tom","Jackson","Jerry","Phil","Ada"))
 
 
 }
