@@ -35,6 +35,7 @@ object Manager{
         Behaviors.supervise(Worker(context.self,aggregator)).onFailure[Exception](SupervisorStrategy.restart)
       }
 
+
       val router = context.spawn(pool, "worker-pool")
 
       Behaviors.receiveMessage{
