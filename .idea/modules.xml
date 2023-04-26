@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/akka_play.iml" filepath="$PROJECT_DIR$/akka_play.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../akka_learn.iml" filepath="$PROJECT_DIR$/../akka_learn.iml" />
     </modules>
   </component>
 </project>

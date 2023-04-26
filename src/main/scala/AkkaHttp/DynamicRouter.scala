@@ -1,5 +1,4 @@
-package AkkaHttp
-
+package main.scala.AkkaHttp
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
@@ -10,7 +9,7 @@ import akka.http.scaladsl.server.Route
 import akka.stream.ActorMaterializer
 import spray.json.DefaultJsonProtocol._
 import spray.json._
-import CatsValidator.ValidationModel._
+import main.scala.CatsValidator.ValidationModel._
 import scala.collection.mutable.ListBuffer
 
 

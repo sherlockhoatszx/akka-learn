@@ -1,5 +1,4 @@
-package CatsValidator
-
+package main.scala.CatsValidator
 
 import cats.data._
 import cats.data.Validated._

@@ -6,8 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="akka_play" />
         <module name="akka_learn" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="akka_learn" target="1.5" />
+    </bytecodeTargetLevel>
   </component>
 </project>
